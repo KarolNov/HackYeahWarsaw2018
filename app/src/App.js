@@ -1,39 +1,45 @@
 import React, { Component } from 'react';
-import './App.css';
+import './App.scss';
 import axios from 'axios';
 import Result from './components/result';
 import SearchBar from './components/searchbar';
 import nutritions_data  from './nutritions-data';
-import Modal from './components/modal';
+import Details from './components/details';
+import api from './data/secrets';
 
 class Results extends Component {
 
   getResults = ()=>{ 
-    const data = this.props.list;
-    let n = data.length;
-    let results = [];
-    for(let i=0; i<n; i++){
-      results.push(<Result food_name={data[i].food_name}
-                               photo={data[i].photo.thumb}
-                               serving={data[i].serving_unit}
-                               details={this.props.nutritions}
-                               />);
+    if(this.props.list.length>1){
+      const data = this.props.list;
+      let n = data.length;
+      let results = [];
+      for(let i=0; i<n; i++){
+        results.push(<Result food_name={data[i].food_name}
+                                photo={data[i].photo.thumb}
+                                serving={data[i].serving_unit}
+                                nutritions={this.props.nutritions}
+                                />);
+      }
+      return results;
     }
-    return results;
   }
 
   render() {
     return(
-      <table className="results">
-      <tbody>
-        {this.getResults()}
-      </tbody>
-      </table>
+      <div className="wraper">
+        <div className="main">
+          <div className="container">
+            {this.getResults()}
+          </div>
+        </div>
+      </div>
     )
   }
 }
 
 class App extends Component {
+
   state = {
     food_list: [
       {
@@ -45,6 +51,7 @@ class App extends Component {
     ],
     food_values: [
       {
+        name: "",
         sodium: "",
         carbohydrates: "",
         sugar: "",
@@ -54,13 +61,20 @@ class App extends Component {
         water: ""
       }
     ],
+    modal: false,
     error: undefined
-  }
+    };
 
+  toggleModal = () =>{
+    this.setState({
+      modal: !this.state.modal
+    })
+  }
+  
   getNutritions = async (e)=>{
     const query = e.target.id.toString();
-    const api_id = "2e09961a";
-    const api_key = "27bf0fa3c3808394eeb56c3d18f99c2d";
+    const api_id = api[0];
+    const api_key = api[1];
     try{
       await axios.post(`https://trackapi.nutritionix.com/v2/natural/nutrients`, { 
             "query": query
@@ -81,6 +95,7 @@ class App extends Component {
         this.setState({
           food_values: [
             {
+              name: query,
               sodium: tab[3],
               carbohydrates: tab[1],
               sugar: tab[2],
@@ -90,10 +105,12 @@ class App extends Component {
               water: tab[0]
             }
           ],
+          modal: !this.state.modal,
           error: ""
         });
-      });            
-    } catch(err){
+        console.log(this.state);
+      });       
+     } catch(err){
       console.error(err);
     }
   }
@@ -101,8 +118,8 @@ class App extends Component {
   getData = async (e) => {
     e.preventDefault();
     const query = e.target.elements.search.value;
-    const api_id = "2e09961a";
-    const api_key = "27bf0fa3c3808394eeb56c3d18f99c2d";
+    const api_id = api[0];
+    const api_key = api[1];
         try{
             await axios.get(`https://trackapi.nutritionix.com/v2/search/instant?query=${query}`, {
                 headers: {
@@ -127,7 +144,7 @@ class App extends Component {
      <div>
        <SearchBar getData={this.getData}/>
        <Results list={this.state.food_list} nutritions={this.getNutritions}/>
-       <Modal value={this.state.food_values}/>
+       <Details value={this.state.food_values} toggle={this.toggleModal} state={this.state.modal}/>
      </div> 
     );
   }

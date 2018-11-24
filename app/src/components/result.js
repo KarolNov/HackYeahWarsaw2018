@@ -1,29 +1,23 @@
 import React, { Component } from 'react';
-import '../App.css';
+import '../App.scss';
 
 class Result extends Component {
-    state = {
-        show: false
-    };
-    showModal = (data) =>{
-       
+    constructor(){
+        super();
     }
     render() {
         return(
-            <tr>
-            <td>
-                {this.props.food_name}
-            </td>
-            <td>
-                <img src={this.props.photo} alt=''/>
-            </td>
-            <td>
-                {this.props.serving}
-            </td>
-            <td>
-                <button onClick={this.props.details} id={this.props.food_name}> More... </button>
-            </td>
-            </tr>
+            <div className="row">
+                <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    {this.props.food_name}
+                </div>
+                <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    {this.props.serving}
+                </div>
+                <div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <button onClick={this.props.nutritions.bind(this)} id={this.props.food_name} className="btn btn-warning"> More... </button>
+                </div>
+            </div>
         )
     }
 }
