@@ -25,6 +25,8 @@ body{
     margin-top: 1rem;
 }
 .search-form .form-group {
+    position: absolute;
+    margin-top: 1rem;
     float: right !important;
     transition: all 0.35s, border-radius 0s;
     width: 32px;

@@ -1178,18 +1178,18 @@ const tab =
     }
   ]
   let resTab = [];
-  let el = tab.filter(el => el.name == "Water")[0];
+  let el = tab.filter(el => el.name === "Water")[0];
   resTab.push(el);
-  el = tab.filter(el => el.name == "Carbohydrate, by difference")[0];
+  el = tab.filter(el => el.name === "Carbohydrate, by difference")[0];
   resTab.push(el);
-  el = tab.filter(el => el.name == "Sugars, total")[0];
+  el = tab.filter(el => el.name === "Sugars, total")[0];
   resTab.push(el);
-  el = tab.filter(el => el.name == "Sodium, Na")[0];
+  el = tab.filter(el => el.name === "Sodium, Na")[0];
   resTab.push(el);
-  el = tab.filter(el => el.name == "Total lipid (fat)")[0];
+  el = tab.filter(el => el.name === "Total lipid (fat)")[0];
   resTab.push(el);
-  el = tab.filter(el => el.name == "Protein")[0];
+  el = tab.filter(el => el.name === "Protein")[0];
   resTab.push(el);
-  el = tab.filter(el => el.name == "Potassium, K")[0];
+  el = tab.filter(el => el.name === "Potassium, K")[0];
   resTab.push(el);
   export default resTab;

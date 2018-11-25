@@ -6,6 +6,7 @@ import SearchBar from './components/searchbar';
 import nutritions_data  from './nutritions-data';
 import Details from './components/details';
 import api from './data/secrets';
+import Meals from './components/history';
 
 class Results extends Component {
 
@@ -142,6 +143,7 @@ class App extends Component {
   render() {
     return (
      <div>
+       <Meals />
        <SearchBar getData={this.getData}/>
        <Results list={this.state.food_list} nutritions={this.getNutritions}/>
        <Details value={this.state.food_values} toggle={this.toggleModal} state={this.state.modal}/>
